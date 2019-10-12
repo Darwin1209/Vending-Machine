@@ -1,6 +1,7 @@
 *{
     margin:0;
     padding: 0;
+    
 }
 
 .view{
@@ -28,4 +29,21 @@
 
 .header-logo {
     width: 30%;
+}
+
+.main {
+    width: 800px;
+    border: solid 1px black;
+}
+
+.buttons {
+   width: 760px;
+   display: flex;
+   align-items: center;
+   justify-content: space-between;
+   margin: 20px;
+}
+
+.footer{
+    
 }
