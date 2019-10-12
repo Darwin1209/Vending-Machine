@@ -106,13 +106,17 @@ const coffeeMachine = {
     }
 };
 
+const blocksClassic = document.querySelector(".classic-drinks");
+const blocksCustom = document.querySelector(".castom-drinks");
+const blocksOption = document.querySelector("options");
+
 document.querySelector(".view").addEventListener("click", (event) => {
     const choice = event.target.dataset.info;
-    let category = event.target.parentElement;
-    console.log(event);
-    console.log(category.classList);
-    category = category.classList[1];
-    console.log(category);
-    //category = c
-    //switch (choice){   }
+    const blocks = event.target.parentElement;
+    let category = blocks.classList[1];
+    switch (category) {
+        case "classic-drinks": 
+            coffeeMachine.checked = 1;
+            break;
+    }
 })

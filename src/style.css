@@ -36,11 +36,18 @@
 }
 
 .buttons {
-   width: 760px;
-   display: flex;
-   align-items: center;
-   justify-content: space-between;
-   margin: 20px;
+    width: 760px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 20px;
+}
+
+.options {
+    width: 480px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 }
 
 .footer{
