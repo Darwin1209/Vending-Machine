@@ -9,7 +9,6 @@
     justify-content: center;
     align-items: center;
     flex-direction: column;
-    margin: auto auto;
 }
 
 .header{
@@ -45,5 +44,8 @@
 }
 
 .footer{
-    
+    width: 300px;
+    height: 400px;
+    border: solid 1px black;
+    margin: 30px 0;
 }
