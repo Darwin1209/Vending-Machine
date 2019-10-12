@@ -1,0 +1,31 @@
+*{
+    margin:0;
+    padding: 0;
+}
+
+.view{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    margin: auto auto;
+}
+
+.header{
+    display: flex;
+    width: 800px;
+    min-height: 200px;
+    align-items: center;
+    justify-content: space-between;
+    border: solid 1px black;
+    margin: 10px;
+}
+
+.header-info {
+    width: 60%;
+    margin-right: 10%;
+}
+
+.header-logo {
+    width: 30%;
+}
