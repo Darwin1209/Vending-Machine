@@ -49,36 +49,44 @@ const coffeeMachine = {
     },
     espresso() {
         this.weight += weightProduct.espresso;
+        this.price += price.espresso
     },
     latte() {
         this.weight += weightProduct.latte;
-        this.milk -= expenseMilk.latte;
+        this.milk += expenseMilk.latte;
+        this.price += price.latte
     },
     cappucino() {
         this.weight += weightProduct.cappucino;
         this.milk += expenseMilk.cappucino;
+        this.price += price.cappucino
     },
     bananaLatte() {
         this.weight += weightProduct.bananaLatte;
         this.milk += expenseMilk.latte;
         this.countSyropBanana -= weightProduct.syrop;
+        this.price += price.bananaLatte
     },
     vanilCappucino() {
         this.weight += weightProduct.vanilCappucino;
         this.milk += expenseMilk.cappucino;
         this.countSyropVanile -= weightProduct.syrop;
+        this.price += price.vanilCappucino
     },
     flatUait() {
         this.weight += weightProduct.flatUait;
         this.milk += expenseMilk.flatUait;
+        this.price += price.flatUait
     },
     milked() {
         this.milk += weightProduct.milk;
         this.weight += weightProduct.milk;
+        this.price += price.milk
     },
     syrop() {
         this.syrop -= weightProduct.syrop;
         this.weight += weightProduct.syrop;
+        this.price += price.syrop
     },
     payment(product) {
         if (this.weight <= this.cupSmall) {
@@ -99,7 +107,12 @@ const coffeeMachine = {
 };
 
 document.querySelector(".view").addEventListener("click", (event) => {
-    if(event.target.dataset.info == "refresh"){
-        console.log("Horay");
-    }
+    const choice = event.target.dataset.info;
+    let category = event.target.parentElement;
+    console.log(event);
+    console.log(category.classList);
+    category = category.classList[1];
+    console.log(category);
+    //category = c
+    //switch (choice){   }
 })
