@@ -22,12 +22,13 @@
 }
 
 .header-info {
-    width: 60%;
+    flex-basis: 60%;
     margin-right: 10%;
+    font-size: 40px
 }
 
 .header-logo {
-    width: 30%;
+    flex-basis: 30%;
 }
 
 .main {
@@ -43,16 +44,13 @@
     margin: 20px;
 }
 
-.options {
-    width: 480px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-}
-
 .footer{
     width: 300px;
     height: 400px;
     border: solid 1px black;
     margin: 30px 0;
+}
+
+.blured{
+    filter: blur(4px);
 }

@@ -64,13 +64,13 @@ const coffeeMachine = {
     bananaLatte() {
         this.weight += weightProduct.bananaLatte;
         this.milk += expenseMilk.latte;
-        this.countSyropBanana -= weightProduct.syrop;
+        this.syrop += weightProduct.syrop;
         this.price += price.bananaLatte
     },
     vanilCappucino() {
         this.weight += weightProduct.vanilCappucino;
         this.milk += expenseMilk.cappucino;
-        this.countSyropVanile -= weightProduct.syrop;
+        this.syrop += weightProduct.syrop;
         this.price += price.vanilCappucino
     },
     flatUait() {
@@ -83,8 +83,8 @@ const coffeeMachine = {
         this.weight += weightProduct.milk;
         this.price += price.milk
     },
-    syrop() {
-        this.syrop -= weightProduct.syrop;
+    syroped() {
+        this.syrop += weightProduct.syrop;
         this.weight += weightProduct.syrop;
         this.price += price.syrop
     },
@@ -102,21 +102,82 @@ const coffeeMachine = {
             this.countSyropCherry -= this.syrop; 
         }
         this.countMilk -= this.milk;
-        refresh();
+        this.refresh();
     }
 };
 
-const blocksClassic = document.querySelector(".classic-drinks");
-const blocksCustom = document.querySelector(".castom-drinks");
-const blocksOption = document.querySelector("options");
+function blured(collections){
+    for (let i = 0; i < collections.length; i++){
+        collections[i].classList.add("blured");
+    }
+}
+
+function removeBlured(collections){
+    for (let i = 0; i < collections.length; i++){
+        collections[i].classList.remove("blured");
+    }
+}
+
+
+const blocksClassic = document.querySelectorAll(".classic-drinks");
+const blocksCustom = document.querySelectorAll(".custom-drinks");
+const blocksOption = document.querySelectorAll(".options");
+const headInfo = document.querySelector(".header-info");
 
 document.querySelector(".view").addEventListener("click", (event) => {
     const choice = event.target.dataset.info;
-    const blocks = event.target.parentElement;
-    let category = blocks.classList[1];
+    const category = event.target.className;
     switch (category) {
-        case "classic-drinks": 
+        case "classic-drinks":
+            if(coffeeMachine.checked != 0){
+                return;
+            }
+            console.log('asas');
             coffeeMachine.checked = 1;
+            blured(blocksCustom);
+            coffeeMachine[choice]();
+            coffeeMachine.product = event.target.alt;
+            headInfo.textContent = `Ваш заказ: ${coffeeMachine.product}, цена ${coffeeMachine.price}`;
             break;
+        case "custom-drinks":
+            if(coffeeMachine.checked != 0){
+                return;
+            }
+            coffeeMachine.checked = 2;
+            blured(blocksClassic);
+            blured(blocksOption);
+            coffeeMachine[choice]();
+            coffeeMachine.product = event.target.alt;
+            headInfo.textContent = `Ваш заказ: ${coffeeMachine.product}, цена ${coffeeMachine.price}`;
+            break;
+        case "options":
+            if(coffeeMachine.checked == 2){
+                return;
+            } else if(coffeeMachine.weight + 50 > 380){
+                return;
+            } else if(coffeeMachine.syrop >= 100 && choice == "syroped") {
+                return;
+            }
+            console.log("aaa");
+            coffeeMachine[choice]();
+            headInfo.textContent = `Ваш заказ: ${coffeeMachine.product}, цена ${coffeeMachine.price}`;
+            break;
+        case "payment":
+            if(coffeeMachine.weight < 100 && coffeeMachine.syrop <= 100){
+                return
+            }
+            coffeeMachine[choice]();
+            headInfo.textContent = "Напиток начал готовиться";
+            removeBlured(blocksOption);
+            removeBlured(blocksCustom);
+            removeBlured(blocksClassic);
+            break
+        case "refresh":
+            removeBlured(blocksOption);
+            removeBlured(blocksCustom);
+            removeBlured(blocksClassic);
+            coffeeMachine[choice]();
+            headInfo.textContent = "";
+            break
     }
 })
