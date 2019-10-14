@@ -122,7 +122,11 @@ function removeBlured(collections){
 const blocksClassic = document.querySelectorAll(".classic-drinks");
 const blocksCustom = document.querySelectorAll(".custom-drinks");
 const blocksOption = document.querySelectorAll(".options");
-const headInfo = document.querySelector(".header-info");
+const headInfo = document.querySelector(".infoProduct");
+const machineInfo = document.querySelector(".infoCoffeeMachine");
+machineInfo.textContent = `Количество стаканчиков:Больших: ${coffeeMachine.countCupBig}, \t Маленьких: ${coffeeMachine.countCupSmall}
+\nКоличество сиропа: Вишнёвый: ${coffeeMachine.countSyropCherry}, \t Банановый: ${coffeeMachine.countSyropBanana}, \t Ванильный: ${coffeeMachine.countSyropVanile}
+\nКоличество молока:${coffeeMachine.countMilk}`;
 
 document.querySelector(".view").addEventListener("click", (event) => {
     const choice = event.target.dataset.info;
@@ -171,6 +175,9 @@ document.querySelector(".view").addEventListener("click", (event) => {
             removeBlured(blocksOption);
             removeBlured(blocksCustom);
             removeBlured(blocksClassic);
+            machineInfo.textContent = `Количество стаканчиков:Больших: ${coffeeMachine.countCupBig}, \t Маленьких: ${coffeeMachine.countCupSmall}
+            \nКоличество сиропа: Вишнёвый: ${coffeeMachine.countSyropCherry}, \t Банановый: ${coffeeMachine.countSyropBanana}, \t Ванильный: ${coffeeMachine.countSyropVanile}
+            \nКоличество молока:${coffeeMachine.countMilk}`;
             break
         case "refresh":
             removeBlured(blocksOption);
