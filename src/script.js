@@ -40,12 +40,15 @@ const coffeeMachine = {
     weight : 0,
     price: 0,
     checked: 0,
+    cooked: 0,
+    product: undefined,
     refresh() {
         this.syrop = 0;
         this.milk = 0;
         this.price = 0;
         this.checked = 0;
         this.weight = 0;
+        this.product = undefined;
     },
     espresso() {
         this.weight += weightProduct.espresso;
@@ -88,15 +91,15 @@ const coffeeMachine = {
         this.weight += weightProduct.syrop;
         this.price += price.syrop
     },
-    payment(product) {
+    payment() {
         if (this.weight <= this.cupSmall) {
             this.countCupSmall -= 1;
         } else {
             this.countCupBig -= 1;
         }
-        if (product == "banana-latte") {
+        if (coffeeMachine.product == "Банановый латте") {
             this.countSyropBanana -= this.syrop;
-        } else if (product == "banana-latte") {
+        } else if (coffeeMachine.product == "Ванильный капучино") {
             this.countSyropVanile -= this.syrop;
         } else {
             this.countSyropCherry -= this.syrop; 
@@ -133,10 +136,9 @@ document.querySelector(".view").addEventListener("click", (event) => {
     const category = event.target.className;
     switch (category) {
         case "classic-drinks":
-            if(coffeeMachine.checked != 0){
+            if(coffeeMachine.checked != 0 || coffeeMachine.cooked == 1){
                 return;
             }
-            console.log('asas');
             coffeeMachine.checked = 1;
             blured(blocksCustom);
             coffeeMachine[choice]();
@@ -144,7 +146,7 @@ document.querySelector(".view").addEventListener("click", (event) => {
             headInfo.textContent = `Ваш заказ: ${coffeeMachine.product}, цена ${coffeeMachine.price}`;
             break;
         case "custom-drinks":
-            if(coffeeMachine.checked != 0){
+            if(coffeeMachine.checked != 0 || coffeeMachine.cooked == 1){
                 return;
             }
             coffeeMachine.checked = 2;
@@ -155,14 +157,14 @@ document.querySelector(".view").addEventListener("click", (event) => {
             headInfo.textContent = `Ваш заказ: ${coffeeMachine.product}, цена ${coffeeMachine.price}`;
             break;
         case "options":
-            if(coffeeMachine.checked == 2){
+            if(coffeeMachine.checked == 2 || coffeeMachine.cooked == 1){
                 return;
             } else if(coffeeMachine.weight + 50 > 380){
                 return;
             } else if(coffeeMachine.syrop >= 100 && choice == "syroped") {
                 return;
             }
-            console.log("aaa");
+            //coffeeMachine.product = coffeeMachine.product || event.target.dataset.alt
             coffeeMachine[choice]();
             headInfo.textContent = `Ваш заказ: ${coffeeMachine.product}, цена ${coffeeMachine.price}`;
             break;
@@ -170,16 +172,22 @@ document.querySelector(".view").addEventListener("click", (event) => {
             if(coffeeMachine.weight < 100 && coffeeMachine.syrop <= 100){
                 return
             }
+            coffeeMachine.cooked = 1;
             coffeeMachine[choice]();
             headInfo.textContent = "Напиток начал готовиться";
-            removeBlured(blocksOption);
-            removeBlured(blocksCustom);
-            removeBlured(blocksClassic);
             machineInfo.textContent = `Количество стаканчиков:Больших: ${coffeeMachine.countCupBig}, \t Маленьких: ${coffeeMachine.countCupSmall}
             \nКоличество сиропа: Вишнёвый: ${coffeeMachine.countSyropCherry}, \t Банановый: ${coffeeMachine.countSyropBanana}, \t Ванильный: ${coffeeMachine.countSyropVanile}
             \nКоличество молока:${coffeeMachine.countMilk}`;
+            setTimeout(()=>{
+                headInfo.textContent = "Напиток готов, пожалуйста заберите!";
+                coffeeMachine.cooked = 0;
+                removeBlured(blocksOption);
+                removeBlured(blocksCustom);
+                removeBlured(blocksClassic);
+            }, 4000)
             break
         case "refresh":
+            coffeeMachine.cooked = 0;
             removeBlured(blocksOption);
             removeBlured(blocksCustom);
             removeBlured(blocksClassic);
