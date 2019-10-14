@@ -1,7 +1,7 @@
 *{
     margin:0;
     padding: 0;
-    
+    border-box: 
 }
 
 .view{
@@ -42,6 +42,15 @@
     align-items: center;
     justify-content: space-between;
     margin: 20px;
+}
+
+.buttons div {
+    width: 200px;
+    height: 160px;
+    background-image: url(picture/cafe.jpg);
+    color: red;
+    text-align: center;
+    font-size: 40px;
 }
 
 .footer{

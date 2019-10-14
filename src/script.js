@@ -136,7 +136,7 @@ document.querySelector(".view").addEventListener("click", (event) => {
             coffeeMachine.checked = 1;
             blured(blocksCustom);
             coffeeMachine[choice]();
-            coffeeMachine.product = event.target.alt;
+            coffeeMachine.product = event.target.dataset.alt;
             headInfo.textContent = `Ваш заказ: ${coffeeMachine.product}, цена ${coffeeMachine.price}`;
             break;
         case "custom-drinks":
@@ -147,7 +147,7 @@ document.querySelector(".view").addEventListener("click", (event) => {
             blured(blocksClassic);
             blured(blocksOption);
             coffeeMachine[choice]();
-            coffeeMachine.product = event.target.alt;
+            coffeeMachine.product = event.target.dataset.alt;
             headInfo.textContent = `Ваш заказ: ${coffeeMachine.product}, цена ${coffeeMachine.price}`;
             break;
         case "options":
