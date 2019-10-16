@@ -42,6 +42,7 @@ const coffeeMachine = {
     checked: 0,
     cooked: 0,
     product: undefined,
+    delay: 0,
     refresh() {
         this.syrop = 0;
         this.milk = 0;
@@ -121,7 +122,20 @@ function removeBlured(collections){
     }
 }
 
+let progressElement = document.getElementById("progress_bar");
 
+function progress(time){
+    let start = 0;
+    let intervalId = setInterval(()=>{
+        if (start <= 100){
+            progressElement.value = start++;
+        } else {
+            clearInterval(intervalId);
+        }
+    }, time)
+}
+
+const cup = document.querySelector("footer");
 const blocksClassic = document.querySelectorAll(".classic-drinks");
 const blocksCustom = document.querySelectorAll(".custom-drinks");
 const blocksOption = document.querySelectorAll(".options");
@@ -134,6 +148,7 @@ machineInfo.textContent = `Количество стаканчиков:Боль�
 document.querySelector(".view").addEventListener("click", (event) => {
     const choice = event.target.dataset.info;
     const category = event.target.className;
+    console.log(event);
     switch (category) {
         case "classic-drinks":
             if(coffeeMachine.checked != 0 || coffeeMachine.cooked == 1){
@@ -142,6 +157,7 @@ document.querySelector(".view").addEventListener("click", (event) => {
             coffeeMachine.checked = 1;
             blured(blocksCustom);
             coffeeMachine[choice]();
+            coffeeMachine.delay = 3000;
             coffeeMachine.product = event.target.dataset.alt;
             headInfo.textContent = `Ваш заказ: ${coffeeMachine.product}, цена ${coffeeMachine.price}`;
             break;
@@ -153,6 +169,7 @@ document.querySelector(".view").addEventListener("click", (event) => {
             blured(blocksClassic);
             blured(blocksOption);
             coffeeMachine[choice]();
+            coffeeMachine.delay = 5000;
             coffeeMachine.product = event.target.dataset.alt;
             headInfo.textContent = `Ваш заказ: ${coffeeMachine.product}, цена ${coffeeMachine.price}`;
             break;
@@ -164,30 +181,33 @@ document.querySelector(".view").addEventListener("click", (event) => {
             } else if(coffeeMachine.syrop >= 100 && choice == "syroped") {
                 return;
             }
-            //coffeeMachine.product = coffeeMachine.product || event.target.dataset.alt
+            coffeeMachine.delay = coffeeMachine.delay ? 7000 : 3000;
+            coffeeMachine.product = coffeeMachine.product || event.target.dataset.alt
             coffeeMachine[choice]();
             headInfo.textContent = `Ваш заказ: ${coffeeMachine.product}, цена ${coffeeMachine.price}`;
             break;
         case "payment":
-            if(coffeeMachine.weight < 100 && coffeeMachine.syrop <= 100){
+            if(coffeeMachine.product == "Вишнёвый сироп" || coffeeMachine.cooked == 1){
                 return
             }
-            coffeeMachine.cooked = 1;
             coffeeMachine[choice]();
             headInfo.textContent = "Напиток начал готовиться";
             machineInfo.textContent = `Количество стаканчиков:Больших: ${coffeeMachine.countCupBig}, \t Маленьких: ${coffeeMachine.countCupSmall}
             \nКоличество сиропа: Вишнёвый: ${coffeeMachine.countSyropCherry}, \t Банановый: ${coffeeMachine.countSyropBanana}, \t Ванильный: ${coffeeMachine.countSyropVanile}
             \nКоличество молока:${coffeeMachine.countMilk}`;
+            coffeeMachine.cooked = 1;
+            progress(coffeeMachine.delay / 100);
             setTimeout(()=>{
                 headInfo.textContent = "Напиток готов, пожалуйста заберите!";
-                coffeeMachine.cooked = 0;
+                cup.classList.add("cup");
                 removeBlured(blocksOption);
                 removeBlured(blocksCustom);
                 removeBlured(blocksClassic);
-            }, 4000)
+            }, coffeeMachine.delay);
             break
         case "refresh":
             coffeeMachine.cooked = 0;
+            progressElement.value = 0;
             removeBlured(blocksOption);
             removeBlured(blocksCustom);
             removeBlured(blocksClassic);
@@ -195,4 +215,11 @@ document.querySelector(".view").addEventListener("click", (event) => {
             headInfo.textContent = "";
             break
     }
+})
+
+cup.addEventListener("click", () => {
+    coffeeMachine.cooked = 0;
+    progressElement.value = 0;
+    headInfo.textContent = "";
+    cup.classList.remove("cup");
 })
